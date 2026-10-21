@@ -15,6 +15,11 @@ Install Node.js, then run `node server.js`. Open http://127.0.0.1:5174. No depen
 - Thrust trace and CSV export (up to the latest 36,000 samples).
 - Save settings to browser storage or import/export validated JSON configurations.
 - Responsive layout, keyboard accessible controls, reduced-motion support and three guided experiments.
+- Larger scalable text and touch targets, immediate press feedback, active cutaway styling, and a translucent view toolbar.
+- Test controls beside the engine on desktop and a persistent compact toolbar on mobile.
+- Undo the latest reset, preset load, or configuration import, restoring settings and recorded telemetry. Restored active tests pause until Resume.
+- Interruptible camera reset with reduced-motion, reduced-transparency and increased-contrast preferences.
+- Geometry changes retain static hardware, coalesce nozzle updates to animation frames, and draw telemetry charts only when needed.
 
 ## Model
 
@@ -26,6 +31,6 @@ Reference: [NASA rocket thrust equations](https://www.grc.nasa.gov/WWW/k-12/airp
 
 ## Verify and deploy
 
-Run `node --test tests/physics.test.js` and `node build.js`. Serve `dist/` from any static host. All asset paths are relative, including for repository-subpath hosting such as GitHub Pages. `.openai/hosting.json` holds the separate private Sites preview identity.
+Run `node --test tests/physics.test.js tests/session.test.js` and `node build.js`. Serve `dist/` from any static host. All asset paths are relative, including for repository-subpath hosting such as GitHub Pages. `.openai/hosting.json` holds the separate private Sites preview identity.
 
 Third-party license: `vendor/THREE-LICENSE.txt` (Three.js and OrbitControls).
