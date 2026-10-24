@@ -20,6 +20,7 @@ Install Node.js, then run `node server.js`. Open http://127.0.0.1:5174. No depen
 - Undo the latest reset, preset load, or configuration import, restoring settings and recorded telemetry. Restored active tests pause until Resume.
 - Interruptible camera reset with reduced-motion, reduced-transparency and increased-contrast preferences.
 - Geometry changes retain static hardware, coalesce nozzle updates to animation frames, and draw telemetry charts only when needed.
+- Screen-sized instrument layout inspired by the Wind Tunnel Simulator: engine, firing controls, metrics and responsive chart fit without page scrolling. Lessons use a separate navigation view; phones switch between Simulation and Engine settings. Longer notes and logs scroll inside their own panels.
 
 ## Model
 
