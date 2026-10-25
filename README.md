@@ -19,7 +19,7 @@ Install Node.js, then run `node server.js`. Open http://127.0.0.1:5174. No depen
 - Test controls beside the engine on desktop and a persistent compact toolbar on mobile.
 - Undo the latest reset, preset load, or configuration import, restoring settings and recorded telemetry. Restored active tests pause until Resume.
 - Interruptible camera reset with reduced-motion, reduced-transparency and increased-contrast preferences.
-- Geometry changes retain static hardware, coalesce nozzle updates to animation frames, and draw telemetry charts only when needed.
+- Geometry changes are coalesced to animation frames; telemetry charts redraw only when needed. Repeated injector elements and flange fasteners use instanced rendering.
 - Screen-sized instrument layout inspired by the Wind Tunnel Simulator: engine, firing controls, metrics and responsive chart fit without page scrolling. Lessons use a separate navigation view; phones switch between Simulation and Engine settings. Longer notes and logs scroll inside their own panels.
 
 ## Model
@@ -30,8 +30,26 @@ This educational model excludes combustion chemistry, flow separation, pumps, th
 
 Reference: [NASA rocket thrust equations](https://www.grc.nasa.gov/WWW/k-12/airplane/rktthsum.html).
 
+## Engine assemblies and inspection
+
+Choose Custom study engine, **Raptor 3**, **Merlin 1D**, **RS-25**, or **Rutherford** under Engine assembly. Each has a distinct major-subsystem topology and representative study inputs. Changing the assembly resets the test, with Undo available; configuration JSON and browser saves preserve the engine ID. Older configuration files migrate to the custom study engine.
+
+Use **Explode** to separate parts and expand the viewer. Assembly offers a continuous 0–100% separation slider, numbered component list, explanations, and **Isolate part**. Click the 3D model or a marker to select a component. Labels, cutaway, viewer expansion, and camera reset remain independently available. Explosion and camera motion respect reduced-motion preferences. Calculations continue during inspection, but the plume is hidden in exploded or isolated views.
+
+Models include the chamber liner/jacket, injector face, cooling channels, manifolds, gimbal mount and actuators, valves, feed ducts, controller and harness. Cycle-specific components include two preburners and turbopumps for Raptor; Merlin's gas generator, common-shaft pump arrangement and exhaust duct; RS-25's four pumps and two fuel-rich preburners; and Rutherford's two electric motors without a preburner or gas generator. Raptor's thermal protection is an interpretive representation of integrated protection.
+
+These are original procedural **educational reconstructions of major subsystems**, not manufacturer CAD, exact internal layouts, dimensional replicas or complete bills of materials. Fasteners, channels and injector patterns are illustrative. Proprietary internals, detailed feed routing and engine-specific thermodynamic inputs are approximations. Selecting a named engine does not make the ideal-nozzle telemetry a validated simulation of that engine's power cycle.
+
+Architecture references:
+
+- [SpaceX Raptor 3 changes](https://www.spacex.com/updates/reusability)
+- [SpaceX Falcon 9 / Merlin](https://www.spacex.com/vehicles/falcon-9/)
+- [NASA RS-25 engine components](https://ntrs.nasa.gov/api/citations/20170008958/downloads/20170008958.pdf)
+- [Smithsonian Rutherford engine](https://www.si.edu/object/engine-rutherford-rocket-lab:nasm_A20220292000)
+- [Rocket Lab Electron / Rutherford](https://rocketlabcorp.com/launch/electron/)
+
 ## Verify and deploy
 
-Run `node --test tests/physics.test.js tests/session.test.js` and `node build.js`. Serve `dist/` from any static host. All asset paths are relative, including for repository-subpath hosting such as GitHub Pages. `.openai/hosting.json` holds the separate private Sites preview identity.
+Run `node --test tests/physics.test.js tests/session.test.js tests/assembly.test.js` and `node build.js`. Tests cover nozzle performance identities, configuration migration, run recovery, cycle-specific component topology and finite geometry. Serve `dist/` from any static host. All asset paths are relative, including for repository-subpath hosting such as GitHub Pages. `.openai/hosting.json` holds the separate private Sites preview identity.
 
 Third-party license: `vendor/THREE-LICENSE.txt` (Three.js and OrbitControls).
