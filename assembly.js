@@ -1,8 +1,11 @@
+import {buildRaptor3} from './raptor-assembly.js';
 import * as T from './vendor/three.module.js';
 import {engines,commonParts} from './engines.js';
 
 // Publicly described subsystem topology with original, approximate geometry.
 export function buildAssembly(config){
+ if(config.engine==='raptor3')return buildRaptor3();
+ if(config.engine&&config.engine!=='generic'){const nominal=engines[config.engine].settings;config={...config,throat:nominal.throat,expansion:nominal.expansion};}
  const model=engines[config.engine]??engines.generic,shape=model.shape,root=new T.Group(),parts=[];
  const mat={steel:new T.MeshStandardMaterial({color:0xaab3bd,metalness:.82,roughness:.3}),dark:new T.MeshStandardMaterial({color:0x333e49,metalness:.7,roughness:.4}),copper:new T.MeshStandardMaterial({color:0xb77b51,metalness:.8,roughness:.35}),black:new T.MeshStandardMaterial({color:0x252b31,metalness:.45,roughness:.52}),fuel:new T.MeshStandardMaterial({color:0x657d98,metalness:.7,roughness:.35}),oxygen:new T.MeshStandardMaterial({color:0x9caeb2,metalness:.75,roughness:.32}),gold:new T.MeshStandardMaterial({color:0xb09b67,metalness:.7,roughness:.36})};
  const shared={bolt:new T.CylinderGeometry(.026,.026,.065,6),smallBolt:new T.CylinderGeometry(.015,.015,.035,6)};
@@ -19,7 +22,7 @@ export function buildAssembly(config){
  const chamber=part('chamber',[0,.05,0]);
  const linerMat=mat.copper.clone();linerMat.side=T.DoubleSide;const chamberShell=mat.steel.clone();chamberShell.side=T.DoubleSide;
  const chamberPoints=[[.31,.05],[.33,.18],[.46,.4],[.49,.65],[.49,1.18]].map(([r,y])=>new T.Vector2(r,y));
- mesh(chamber,new T.LatheGeometry(chamberPoints,64),linerMat);mesh(chamber,new T.CylinderGeometry(.53,.53,.71,64,1,true),chamberShell,[0,.82,0]);
+ const liner=mesh(chamber,new T.LatheGeometry(chamberPoints,64),linerMat);liner.userData.inspectionOnly=true;mesh(chamber,new T.CylinderGeometry(.53,.53,.71,64,1,true),chamberShell,[0,.82,0]);
  for(let i=0;i<40;i++){const a=i/40*Math.PI*2;link(chamber,[.512*Math.cos(a),.44,.512*Math.sin(a)],[.512*Math.cos(a),1.19,.512*Math.sin(a)],.008,mat.copper);}
  torus(chamber,.51,.025,.44);flange(chamber,.59,1.2);torus(chamber,.34,.025,.14);
  const throat=Math.max(.19,Math.min(.37,config.throat*1.4));const exit=Math.max(.65,Math.min(1.65,throat*Math.sqrt(config.expansion)));
@@ -28,8 +31,8 @@ export function buildAssembly(config){
  for(let i=0;i<=60;i++){const t=i/60;const radius=throat+(exit-throat)*(1-Math.pow(1-t,1.65));points.push(new T.Vector2(radius,-length*t));}
  const bell=mesh(nozzle,new T.LatheGeometry(points.slice().reverse(),96),bellMat);
  const channelCount=shape==='rutherford'?44:72;
- for(let j=0;j<channelCount;j++){const a=j/channelCount*Math.PI*2;const path=points.filter((_,i)=>i%3===0).map(p=>[(p.x+.012)*Math.cos(a),p.y,(p.x+.012)*Math.sin(a)]);tube(nozzle,path,.0075,shape==='raptor'?mat.steel:mat.copper);}
- for(let i=1;i<=5;i++){const t=i/5,r=throat+(exit-throat)*(1-(1-t)**1.65);torus(nozzle,r+.013,.016,-length*t,mat.steel);}torus(nozzle,exit,.035,-length,mat.steel);torus(nozzle,throat,.04,0,mat.steel);
+ for(let j=0;j<channelCount;j++){const a=j/channelCount*Math.PI*2;const path=points.filter((_,i)=>i%3===0).map(p=>[(p.x+.012)*Math.cos(a),p.y,(p.x+.012)*Math.sin(a)]);const channel=tube(nozzle,path,.0075,shape==='raptor'?mat.steel:mat.copper);channel.userData.inspectionOnly=shape!=='rs25';}
+ for(let i=1;i<=(shape==='rs25'?5:0);i++){const t=i/5,r=throat+(exit-throat)*(1-(1-t)**1.65);torus(nozzle,r+.013,.016,-length*t,mat.steel);}torus(nozzle,exit,.035,-length,mat.steel);torus(nozzle,throat,.04,0,mat.steel);
  const injector=part('injector',[0,1,0]);flange(injector,.59,1.34,20);cyl(injector,.51,.17,1.45,mat.dark);cyl(injector,.47,.028,1.24,mat.copper);
  // Alternating raised injector elements make the face legible in exploded view.
  const elements=new T.InstancedMesh(new T.CylinderGeometry(.012,.012,.025,8),mat.steel.clone(),150),dummyElement=new T.Object3D();let element=0;for(let ring=1;ring<=5;ring++)for(let i=0;i<ring*10;i++){const a=i/(ring*10)*Math.PI*2,r=ring*.08;dummyElement.position.set(r*Math.cos(a),1.217,r*Math.sin(a));dummyElement.updateMatrix();elements.setMatrixAt(element,dummyElement.matrix);elements.setColorAt(element++,new T.Color(i%2?0x30373d:0xb09b67));}injector.add(elements);

@@ -36,20 +36,27 @@ Choose Custom study engine, **Raptor 3**, **Merlin 1D**, **RS-25**, or **Rutherf
 
 Use **Explode** to separate parts and expand the viewer. Assembly offers a continuous 0–100% separation slider, numbered component list, explanations, and **Isolate part**. Click the 3D model or a marker to select a component. Labels, cutaway, viewer expansion, and camera reset remain independently available. Explosion and camera motion respect reduced-motion preferences. Calculations continue during inspection, but the plume is hidden in exploded or isolated views.
 
-Models include the chamber liner/jacket, injector face, cooling channels, manifolds, gimbal mount and actuators, valves, feed ducts, controller and harness. Cycle-specific components include two preburners and turbopumps for Raptor; Merlin's gas generator, common-shaft pump arrangement and exhaust duct; RS-25's four pumps and two fuel-rich preburners; and Rutherford's two electric motors without a preburner or gas generator. Raptor's thermal protection is an interpretive representation of integrated protection.
+Models include the chamber liner/jacket, injector face, cooling channels, manifolds, gimbal mount and actuators, valves, feed ducts, controller and harness. Cycle-specific components include two preburners and turbopumps for Raptor; Merlin's gas generator, common-shaft pump arrangement and exhaust duct; RS-25's four pumps and two fuel-rich preburners; and Rutherford's two electric motors without a preburner or gas generator. Raptor uses a dedicated exterior reconstructed from the supplied front photograph: a smooth dark bell, tall narrow valve tower, asymmetric pump housings and swept side duct. Internal preburners and controller geometry appear during inspection; cooling channels remain internal, rather than adding bright ribs to the assembled nozzle. Named engine exteriors retain their reference proportions when study inputs change. RS-25 retains its representative exterior tube construction.
 
 These are original procedural **educational reconstructions of major subsystems**, not manufacturer CAD, exact internal layouts, dimensional replicas or complete bills of materials. Fasteners, channels and injector patterns are illustrative. Proprietary internals, detailed feed routing and engine-specific thermodynamic inputs are approximations. Selecting a named engine does not make the ideal-nozzle telemetry a validated simulation of that engine's power cycle.
+
+Use **Propellant flow** to reveal directional arrows over a translucent assembly. Fuel, oxygen and combustion gas have both colors and F/O/G labels. The Assembly panel contains stream filters, pause/play, single-step and arrow speed. Reduced motion uses static arrows with Step available. Solid routes denote liquid feeds and dashed routes denote hot gas. This repeating cycle schematic is independent of the firing test: arrow spacing and speed do not indicate mass flow, startup timing, or exact internal plumbing.
+
+The diagram distinguishes full-flow staged combustion (separate fuel-rich and oxygen-rich turbine paths), Merlin's separate turbine exhaust, RS-25's two fuel-rich preburners and four pumps, and Rutherford's electric pumps without a preburner. No proprietary routing is claimed. Geometry shows major subsystems and illustrative channels rather than every production part.
+
+Additional inspection tools include component search, front/right/3D camera presets, and an anchored **View** menu for labels, cutaway and reset. Flow inspection and exploded inspection use separate modes so arrows remain aligned with the assembled schematic.
 
 Architecture references:
 
 - [SpaceX Raptor 3 changes](https://www.spacex.com/updates/reusability)
 - [SpaceX Falcon 9 / Merlin](https://www.spacex.com/vehicles/falcon-9/)
+- [NASA full-flow staged-combustion testing](https://www.nasa.gov/news-release/new-rocket-engine-combustion-cycle-technology-testing-reaches-100-power-level/)
 - [NASA RS-25 engine components](https://ntrs.nasa.gov/api/citations/20170008958/downloads/20170008958.pdf)
 - [Smithsonian Rutherford engine](https://www.si.edu/object/engine-rutherford-rocket-lab:nasm_A20220292000)
 - [Rocket Lab Electron / Rutherford](https://rocketlabcorp.com/launch/electron/)
 
 ## Verify and deploy
 
-Run `node --test tests/physics.test.js tests/session.test.js tests/assembly.test.js` and `node build.js`. Tests cover nozzle performance identities, configuration migration, run recovery, cycle-specific component topology and finite geometry. Serve `dist/` from any static host. All asset paths are relative, including for repository-subpath hosting such as GitHub Pages. `.openai/hosting.json` holds the separate private Sites preview identity.
+Run `node --test tests/physics.test.js tests/session.test.js tests/assembly.test.js tests/flow.test.js` and `node build.js`. Tests cover nozzle performance identities, configuration migration, run recovery, cycle-specific component topology, finite geometry, flow graph endpoints, turbine/exhaust routing and reference-geometry stability. Serve `dist/` from any static host. All asset paths are relative, including for repository-subpath hosting such as GitHub Pages. `.openai/hosting.json` holds the separate private Sites preview identity.
 
 Third-party license: `vendor/THREE-LICENSE.txt` (Three.js and OrbitControls).
