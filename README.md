@@ -16,6 +16,7 @@ Install Node.js, then run `node server.js`. Open http://127.0.0.1:5174. No depen
 - Save settings to browser storage or import/export validated JSON configurations.
 - Responsive layout, keyboard accessible controls, reduced-motion support and three guided experiments.
 - Larger scalable text and touch targets, immediate press feedback, active cutaway styling, and a translucent view toolbar.
+- Aligned segmented navigation with concise labels, consistent form spacing, telemetry cards and text-backed engine status badges. Compact phone toolbar labels preserve room for the engine; keyboard tab navigation and full accessible names remain available.
 - Test controls beside the engine on desktop and a persistent compact toolbar on mobile.
 - Undo the latest reset, preset load, or configuration import, restoring settings and recorded telemetry. Restored active tests pause until Resume.
 - Interruptible camera reset with reduced-motion, reduced-transparency and increased-contrast preferences.
